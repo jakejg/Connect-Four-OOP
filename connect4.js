@@ -5,12 +5,11 @@
  * board fills (tie)
  */
 class Game{
-  constructor(p1,p2,WIDTH, HEIGHT){
+  constructor(WIDTH, HEIGHT, ...players){
     this.WIDTH = WIDTH;
     this.HEIGHT = HEIGHT;
-    this.p1 = p1;
-    this.p2 = p2;
-    this.currPlayer = p1
+    this.players = [...players]
+    this.currPlayer = this.players[0]
     this.gameOver = true;
     this.makeBoard();
     this.makeHtmlBoard();
@@ -18,13 +17,11 @@ class Game{
   }
 
   toggleStartScreen(){
+    console.log(this.players)
     const startScreen = document.querySelector('#start-form')
     startScreen.classList.toggle('hidden')
   }
-  toggleGame(){
-  const gameboard = document.querySelector('#game')
-    gameboard.classList.toggle('hidden')
-  }
+  
    makeBoard() {
     this.board = [];
     for (let y = 0; y < this.HEIGHT; y++) {
@@ -120,7 +117,16 @@ class Game{
       
     // switch players
     if (!this.checkForWin()) {
-    this.currPlayer = this.currPlayer === this.p1 ? this.p2 : this.p1;
+      for (let i = 0; i<this.players.length; i++){
+        if (this.currPlayer.number === this.players.length){
+          this.currPlayer = this.players[0]
+          break;
+        }
+        else if (this.currPlayer === this.players[i]){
+          this.currPlayer = this.players[i+1]
+          break;
+        }
+      }
     }
   }
 }
@@ -168,13 +174,36 @@ class Player{
     this.number = number
   }
 }
-const button = document.querySelector('button')
-button.addEventListener('click', () => {
+
+
+const form = document.querySelector('#start-form')
+form.addEventListener('click', e => {
   let p1color = document.querySelector('#p1color').value
   let p2color = document.querySelector('#p2color').value
- let p1 = new Player(p1color, 1)
- let p2 = new Player(p2color, 2)
- new Game(p1,p2,7,6)
+    if(e.target.id === 'start'){
+        let p1 = new Player(p1color, 1)
+        let p2 = new Player(p2color, 2)
+        if (document.body.contains(document.querySelector('#p3color'))){
+          let p3color = document.querySelector('#p3color').value
+          let p3 = new Player(p3color, 3)
+          new Game(7,6,p1,p2,p3)
+        }
+        else{
+          new Game(7,6,p1,p2)
+        }
+  }
+  if(e.target.id === 'three-players'){
+        document.querySelector('#three-players').remove()
+    let label3 = document.createElement('label')
+        label3.setAttribute('for', 'p3color')
+        label3.innerText = 'Player 3'
+    let input3 = document.createElement('input')
+        input3.id = 'p3color'
+        input3.setAttribute('placeholder', 'Enter favorite color')
+    let button = document.querySelector('#break')
+        form.insertBefore(label3, button)
+        form.insertBefore(input3, button)
+  }
 })
 
 
