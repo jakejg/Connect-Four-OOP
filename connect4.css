@@ -1,0 +1,92 @@
+/* game board table */
+body{
+  background-color: rgb(79, 163, 219);
+}
+
+#board{
+  position: absolute;
+  width: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+}
+
+#board td {
+  width: 50px;
+  height: 50px;
+  border: solid 1px #666;
+  position: relative;
+}
+
+/* pieces are div within game table cells: draw as colored circles */
+
+.piece {
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  position: absolute;
+  animation-name: drop;
+  animation-duration: 800ms;
+  bottom: 0px;
+  left: .1px
+  
+}
+
+@keyframes drop {
+  0% { 
+    bottom: 350px;
+  }
+  100%{
+    bottom: 0px;
+  }
+}
+
+
+
+.piece.p1 {
+  background-color: red;
+}
+
+.piece.p2 {
+  background-color: blue;
+}
+
+/* column-top is table row of clickable areas for each column */
+
+#column-top td {
+  border: dashed 1px lightgray;
+}
+
+td {
+  border-radius: 30px;
+}
+
+#column-top td:hover {
+  background-color: gold;
+}
+
+input, button {
+  border-radius: 7px;
+  padding: 2px;
+  margin: 4px;
+  border: none;
+}
+
+.hidden{
+  display: none;
+}
+
+#start-form{
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: solid rgb(243, 116, 116) 3px;
+  border-radius: 10px;
+  background-color: blueviolet;
+  padding: 5px;
+  text-align: center;
+}
